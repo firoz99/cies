@@ -1,0 +1,89 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Case Transfer{% endblock %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        
+            <div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+                <div class="panel-body">
+                    <h3 class="text-center"><u>Case Transfer </u></h3><br/>
+					
+                    <form role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}						
+						
+							<div class="form-group col-xs-12 col-lg-12">
+								<div class="control-label col-xs-12 col-lg-12"><label for="id_district">District</div>
+								
+								<div class="col-xs-12 col-lg-12">
+									<select class="form-control" id="id_district" name="district">
+										<option value="" selected="selected">---------</option>
+									{% for district in districts %}
+										<option value="{{ district.id }}" {% if request.GET.district %} {{ district.id|isSelected:request.GET.district }} {% endif %} >{{ district.name }}</option>
+									{% endfor %}
+									</select>
+								</div>	
+							</div>
+						
+							<div class="form-group col-xs-12 col-lg-12">
+								<div class="control-label col-xs-12 col-lg-12"><label for="id_thana">Thana</div>
+								
+								<div class="col-xs-12 col-lg-12">
+									<select class="form-control" id="id_thana" name="thana" disabled="disabled">
+										<option value="" selected="selected">---------</option>
+									</select>
+								</div>
+							</div>
+						<div class="form-group">
+                            <div class="col-xs-12 col-lg-12">
+                                <button type="submit" class="btn btn-success">Assign</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block forJS %}
+<script>
+
+$(document).ready(function(){
+	
+	if($('select[name=district]').val()){
+		getThanas();
+	}
+
+    $('select[name=district]').on('change', getThanas)
+	
+	function getThanas(){
+		district_id = $('select[name=district]').val();
+		request_url = '/cdms/get_thanas/' + district_id + '/';
+		$('select[name=thana]').prop('disabled', false);
+		$('select[name=thana]').find('option').remove();
+
+		$.ajax({
+				url: request_url,
+				success: function(items){
+					$.each(items, function (i, item) {
+						$('select[name=thana]').append($('<option>', { 
+							value: i,
+							text : item 
+						}));
+					});
+				}
+			})
+		
+	}
+	
+});
+
+</script>
+{% endblock %}
+

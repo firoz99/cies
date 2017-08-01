@@ -1,0 +1,105 @@
+{% extends 'cdms/base.html' %}
+{% block title %}GD details{% endblock %}
+{% load my_filters %}
+{% block active-gd-list %}active{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row details-action-btn-row">
+		<div  class="col-lg-offset-8 col-lg-4">
+			<div class="btn-group pull-right">
+				<a class="btn btn-default" href="{% url 'cdms:gd_list' %}" role="button">Back to the list</a>
+				<a class="btn btn-success" href="#" role="button">Create a new case</a>
+			</div>
+		</div>
+	</div>	
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-6 col-xs-6">
+					<address>
+					  Name : <strong>{{ gd.name }}</strong><br>
+					  National ID : {{ gd.national_id }}<br>
+					  Father's Name : {{ gd.father_name }}<br>
+					  Mother's Name : {{ gd.mother_name }}<br>
+					</address>
+				</div>
+				<div  class="col-lg-6 col-xs-6">
+					<address>
+					  Date : <strong>{{ gd.date_time }}</strong><br>
+					  Present Address : {{ gd.present_address }}<br>
+					  permanent Address : {{ gd.permanent_address }}<br>
+					  Mobile : <strong>{{ gd.mobile }}</strong>, Email : <strong>{{ gd.email }}</strong><br>
+					</address>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-11 col-xs-11">
+					<h4>Deatils: </h4>
+					<p>
+						{{ gd.description|linebreaks }}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{% for files in gd.gd_files_set.all %}
+			<div class="col-xs-4 col-md-2 ">
+				<div class="file-show-div">
+					<h4 class="text-center"><strong>{{ files.file.name|getExtension }}</strong></h4>
+					<a href="{{ files.file.url }}" class="btn btn-success btn-sm margin-left-download-btn pull-right" target="_blank">
+						<i class="fa fa-download"></i>
+					</a>
+				</div>
+				<span class="fileNameCss text-info">{{ files.file.name|fileNameFiltering }}</span>
+			</div>
+			{% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+		{% endfor %}
+	</div><br/>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div  class="col-lg-6 col-xs-6">
+					<h4>Assigned By: </h4>
+					<h3>{{ gd.assigned_by.get_full_name }}</h3>
+					<h5>{{ gd.assigned_by.officer.get_rank_display }} - {{ gd.assigned_by.officer.position }}</h5>
+				</div>
+				<div  class="col-lg-6 col-xs-6">
+					<h4>Action Officer: </h4>
+				{% if gd.action_officer %}
+					<h3>{{ gd.action_officer.get_full_name }}</h3>
+					<h5>{{ gd.action_officer.officer.get_rank_display }} - {{ gd.action_officer.officer.position }}</h5>
+					{% if user.officer.is_level_3 %}
+						<a class="btn btn-danger btn-sm" href="{% url 'cdms:remove_action_officer' gd.id %}" role="button">Remove this action officer</a>
+					{% endif %}
+				{% else %}
+					{% if user.officer.is_level_3 %}
+						<a class="btn btn-success" href="{% url 'cdms:assign_action_officer' gd.id %}" role="button">Assign an officer to take action</a>
+					{% endif %}
+				{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<div  class="col-lg-11 col-xs-11">
+					<h4>Action Deatils: </h4>
+					{% if gd.action_details %}
+						<p>{{ gd.action_details|linebreaks }}</p>
+						<a class="btn btn-warning" href="{% url 'cdms:gd_action' gd.id %}" role="button">Edit</a>
+					{% else %}
+						<p>No action has been taken yet.</p>
+						<a class="btn btn-success" href="{% url 'cdms:gd_action' gd.id %}" role="button">Take action</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

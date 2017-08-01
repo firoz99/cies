@@ -1,0 +1,71 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Case details{% endblock %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row details-action-btn-row">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="btn-group">
+					<a class="btn btn-{% if BtnValue == 'caseDetailsBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_details' case.id %}" role="button">FIR Details</a>
+					{% if user.officer.is_level_3 %}
+					<a class="btn btn-{% if BtnValue == 'investigatinOfficerBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_investigation_officers' case.id %}" role="button">Investigation Officers</a>
+					{% endif %}
+					<a class="btn btn-{% if BtnValue == 'caseUpdatesBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_updates' case.id %}" role="button">Updates</a>
+	
+					<a class="btn btn-{% if BtnValue == 'chargeSheetBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:charge_sheet' case.id %}" role="button">Charge Sheet</a>
+					<a class="btn btn-{% if BtnValue == 'verdictBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_verdict' case.id %}" role="button">Verdict</a>
+
+				</div>
+			</div>
+		
+		<div  class="col-lg-4">
+			<div class="btn-group pull-right">
+				<a class="btn btn-default" href="{% url 'cdms:case_list' %}" role="button">Back to the list</a>
+				<a class="btn btn-success" href="{% url 'cdms:case_update_form' case.id %}" role="button">Add new updates</a>
+			</div>
+		</div>
+	</div>	<br>
+	<h3><u>Case Updates</u></h3>
+	{% for update in case.case_update_set.all %}
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-6 col-xs-6">
+					<h4>{{ update.title }}</h4>
+				</div>
+				<div  class="col-lg-6 col-xs-6">
+					<div class="pull-right">
+					<h4><u>Updated By :</u></h4>
+					<p><strong>{{ update.update_by.get_full_name }}</strong><br>
+					{{ update.update_by.officer.get_rank_display }}</p>
+					</div>
+				</div>
+				<div  class="col-lg-11 col-xs-11">
+					<p>{{ update.description|linebreaks }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{% for files in update.case_update_files_set.all %}
+			<div class="col-xs-4 col-md-2 ">
+				<div class="file-show-div">
+					<h4 class="text-center"><strong>{{ files.file.name|getExtension }}</strong></h4>
+					<a href="{{ files.file.url }}" class="btn btn-success btn-sm margin-left-download-btn pull-right" target="_blank">
+						<i class="fa fa-download"></i>
+					</a>
+				</div>
+				<span class="fileNameCss text-info">{{ files.file.name|fileNameFiltering }}</span>
+			</div>
+			{% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+		{% endfor %}
+	</div><br/>
+	{% endfor %}
+</div>
+{% endblock %}

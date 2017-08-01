@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CIES{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'cdms/images/fav.png' %}"/>
+    <link rel="stylesheet" href="{% static 'cdms/bootstrap-3.3.7/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'cdms/css/font-awesome.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cdms/style.css' %}"/>
+	{% block forCSS %}
+	{% endblock %}
+	
+    <script src="{% static 'cdms/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'cdms/bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu-content">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'cdms:dashboard' %}">Crime Investigation Enhancement System</a>
+			
+        </div>
+		<div class="dropdown pull-right">
+			<button class="btn dropdown-toggle user-dropdown-menu-btn" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				{% if user.officer.pro_pic %}
+					<img class="img-circle" src="{{ user.officer.pro_pic.url }}" alt="Profile Picture" height="24" width="24">
+				{% else %}
+					<i class="fa fa-user fa-lg"></i>
+				{% endif %}
+				{{ user.username }} 
+				<span class="caret"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				<li><a href="{% url 'cdms:profile' %}">Profile</a></li>
+				<li><a href="{% url 'cdms:change_password' %}">Change password</a></li>
+				<li role="separator" class="divider"></li>
+				<li><a href="{% url 'cdms:logout' %}">Log out</a></li>
+			</ul>
+		</div>
+		<div class="nav-side-menu">
+			<div class="menu-list">
+	  
+				<ul id="menu-content" class="menu-content collapse out">
+					<li class="{% block active-home %}{% endblock %}">
+					  <a href="{% url 'cdms:dashboard' %}">
+					  <i class="fa fa-home fa-lg"></i> Home
+					  </a>
+					</li>
+
+					<li  data-toggle="collapse" data-target="#criminal" class="collapsed {% block active-criminal %}{% endblock %}">
+					  <a href="#"><i class="fa fa-gift fa-lg"></i> Criminal records <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="criminal">
+						{% if user.officer.is_level_3 %}
+						<li class="{% block active-add-new %}{% endblock %}"><a href="{% url 'cdms:add_criminal' %}">Add new</a></li>
+						{% endif %}
+						<li class="{% block active-search %}{% endblock %}"><a href="{% url 'cdms:search_criminal' %}">Search</a></li>
+						{% if user.officer.is_level_3 %}
+						<li><a href="{% url 'cdms:train' %}">Train Image Data</a></li>
+						{% endif %}
+					</ul>
+					{% if user.officer.is_level_2 %}
+					<li  data-toggle="collapse" data-target="#admin" class="collapsed {% block active-admin %}{% endblock %}">
+					  <a href="#"><i class="fa fa-gift fa-lg"></i> Admin <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="admin">
+						{% if user.officer.is_level_1 %}
+						<li class="{% block active-admin-list %}{% endblock %}"><a href="{% url 'cdms:admin_list' %}">Administrators</a></li>
+						{% endif %}
+						<li class="{% block active-officer-list %}{% endblock %}"><a href="{% url 'cdms:officer_list' %}">Officers</a></li>
+					</ul>
+					{% endif %}
+					</li>
+					<li  data-toggle="collapse" data-target="#thana" class="collapsed {% block active-thana %}{% endblock %}">
+					  <a href="#"><i class="fa fa-building fa-lg"></i> Thana <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="thana">
+						{% if user.officer.is_level_2 %}
+						<li class="{% block active-add-thana %}{% endblock %}"><a href="{% url 'cdms:add_thana' %}">Add new</a></li>
+						{% endif %}
+						<li class="{% block active-thana-list %}{% endblock %}"><a href="{% url 'cdms:thana_list' %}">Thana List</a></li>
+						{% if user.officer.is_level_2 %}
+						<li class="{% block active-districts %}{% endblock %}"><a href="{% url 'cdms:district_list' %}">Districts</a></li>
+						{% endif %}
+					</ul>
+					{% if user.officer.is_level_2 %}
+					{% else %}
+					<li  data-toggle="collapse" data-target="#case" class="collapsed {% block active-case %}{% endblock %}">
+					  <a href="#"><i class="fa fa-file fa-lg"></i> Case <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="case">
+
+						<li class="{% block active-file-fir %}{% endblock %}"><a href="{% url 'cdms:fir_form' %}">File a FIR</a></li>
+
+						<li class="{% block active-case-list %}{% endblock %}"><a href="{% url 'cdms:case_list' %}">Case List</a></li>
+						
+					</ul>
+					
+					<li class="{% block active-gd-list %}{% endblock %}">
+					  <a href="{% url 'cdms:gd_list' %}">
+					  <i class="fa fa-envelope fa-lg"></i> General Diary <span class="badge">{{ gd_number }}</span>
+					  </a>
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+</nav>
+<div id="content-wrapper">
+{% block body %}
+{% endblock %}
+</div>
+{% block forJS %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,32 @@
+{% extends 'cdms/visitor_base.html' %}
+{% block activeMostWanted %}active{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+	<div class="row">
+		<h3 class="text-center"><u>Most wanted Criminals</u></h3>
+		{% if criminals %}
+            {% for criminal in criminals %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <a target="_blank" href="{% url 'cdms:criminal_details2' criminal.id %}">
+							{% with criminal.criminal_images_set.all|first as img %}
+								<img height="100px" src="{{ img.image.url }}" />
+							{% endwith %}
+                        </a>
+                        <div class="caption">
+							<a target="_blank" href="{% url 'cdms:criminal_details2' criminal.id %}">
+								<h4>{{ criminal.name }}</h4>
+							</a>
+                            <h6>{{ criminal.crime_titles }}</h6>
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+			{% endfor %}
+		{% endif %}	
+	</div>
+</div>
+
+{% endblock %}

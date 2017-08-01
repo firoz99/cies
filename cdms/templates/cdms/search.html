@@ -1,0 +1,195 @@
+{% extends 'cdms/base.html' %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block active-criminal %}active{% endblock %}
+{% block active-search %}active{% endblock %}
+
+{% block forCSS %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-sm-12 col-md-5 col-lg-5">
+					<div class="row">
+						<div class="col-sm-12 col-lg-offset-2 col-lg-8">
+							<img src="{% static 'cdms/images/camera.png' %}">
+						</div>
+					</div>
+					<br/>
+					<div class="row">
+						<div class="col-sm-12 col-lg-offset-1 col-lg-10">
+							<form class="form-inline" role="form" action="" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								<div class="form-group">
+									<input class="filestyle" data-placeholder="No File" id="id_image" name="image" type="file" required />
+								</div>
+								<button type="submit" class="btn btn-success">Search</button>
+							</form>
+						</div>
+					</div>	
+				</div>
+				<div class="col-sm-12 col-md-1 col-lg-1">
+					<img class="hidden-sm hidden-xs" src="{% static 'cdms/images/vertical-bar.png' %}">
+					<hr class="hidden-md hidden-lg"/>
+				</div>
+				<div class="col-sm-12 col-md-6 col-lg-6">
+					<form class="form-horizontal" role="search" action="{% url 'cdms:search_criminal' %}" method="get">
+						
+						<div class="form-group">
+							<div class="control-label col-sm-3 col-md-4 col-lg-3">
+								<label for="id_cid">Criminal ID :</label>
+							</div>
+							<div class="col-sm-9 col-md-6 col-lg-6">
+								<input class="form-control" id="id_cid" maxlength="250" name="criminal_id" type="text" value="{{ request.GET.criminal_id }}"/>
+							</div>
+						</div>
+						<hr/>
+						<div class="form-group">
+							<div class="control-label col-sm-3 col-md-4 col-lg-3">
+								<label for="id_district">District :</label>
+							</div>
+							<div class="col-sm-9 col-md-6 col-lg-6">
+								<select class="form-control" id="id_district" name="district">
+									<option value="" selected="selected">---------</option>
+								{% for district in districts %}
+									<option value="{{ district.id }}" {% if request.GET.district %} {{ district.id|isSelected:request.GET.district }} {% endif %} >{{ district.name }}</option>
+								{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="control-label col-sm-3 col-md-4 col-lg-3">
+								<label for="id_thana">Thana :</label>
+							</div>
+							<div class="col-sm-9 col-md-6 col-lg-6">
+								<select class="form-control" id="id_thana" name="thana" disabled="disabled">
+									<option value="" selected="selected">---------</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="control-label col-sm-3 col-md-4 col-lg-3">
+								<label for="id_criminal_status">Criminal status :</label>
+							</div>
+							<div class="col-sm-9 col-md-6 col-lg-6">
+								<select class="form-control" id="id_criminal_status" name="criminal_status">
+									<option value="" selected="selected">---------</option>
+								{% for keyCS, valueCS in cs.items %}
+									<option value="{{ keyCS }}" {% if request.GET.criminal_status %} {{ keyCS|isSelected:request.GET.criminal_status }} {% endif %} >{{ valueCS }}</option>
+								{% endfor %}
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<div class="control-label col-sm-3 col-md-4 col-lg-3">
+								<label for="id_name">Name or Alias :</label>
+							</div>
+							<div class="col-sm-9 col-md-6 col-lg-6">
+								<input class="form-control" id="id_name" maxlength="250" name="nameOrAlias" type="text" value="{{ request.GET.nameOrAlias }}"/>
+							</div>
+						</div>
+						
+						<div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-6 col-lg-offset-3 col-lg-6">
+                                <button type="submit" class="btn btn-success">Search</button>
+                            </div>
+                        </div>
+						
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	{% if criminals %}
+		<h4><u>Search Results</u></h4>
+		{% for criminal in criminals %}
+			<div class="col-sm-12 col-md-6 col-lg-6">
+				<a class="search-box" target="_blank" href="{% url 'cdms:criminal_details' criminal.id %}">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-3">
+									{% with criminal.criminal_images_set.all|first as img %}
+										<img height="100px" style="max-width: 100px;" src="{{ img.image.url }}" />
+									{% endwith %}
+								</div>
+								<div class="col-lg-6">
+									<div class="row">
+										<h4>{{ criminal.name }} - <span class="text-primary">{{criminal.criminal_id}}</span></h4>
+										<h5>{{ criminal.aliases }}</h5>
+									</div>
+								</div>
+								<div class="col-lg-3">
+									<h4 class="text-right"><span class="label {{ criminal.criminal_status|labelColor }}">{{ criminal.get_criminal_status_display }}</span></h4>
+									<h5 class="text-right">{{ criminal.thana }}, {{ criminal.district }}</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>	
+			{% cycle '' '<div class="clearfix visible-lg"></div>' %}
+		{% endfor %}
+	{% endif %}
+</div>
+
+{% endblock %}
+
+{% block forJS %}
+	<script type="text/javascript" src="{% static 'cdms/js/bootstrap-filestyle.min.js' %}"> </script>
+	<script>
+	$(document).ready(function(){
+
+		$.urlParam = function(name){
+				var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+				if(results){
+					return results[1] || 0;
+				}
+				return 0;
+			}
+
+		if($('select[name=district]').val()){
+			getThanas();
+		}
+
+		$('select[name=district]').on('change', getThanas)
+		
+		function getThanas(){
+			district_id = $('select[name=district]').val();
+			request_url = '/cdms/get_thanas/' + district_id + '/';
+			$('select[name=thana]').prop('disabled', false);
+			$('select[name=thana]').find('option').remove();
+			$('select[name=thana]').append($('<option>', { 
+								value: "",
+								text : "---------" 
+							}));
+			$.ajax({
+					url: request_url,
+					success: function(items){
+						$.each(items, function (i, item) {
+							if(i == $.urlParam('thana')){
+								$('select[name=thana]').append($('<option>', { 
+									value: i,
+									text : item,
+									selected: "selected"
+								}));
+							}else{
+								$('select[name=thana]').append($('<option>', { 
+									value: i,
+									text : item
+								}));
+							}
+							
+						});
+					}
+				})
+			
+			
+		}
+	});
+	</script>
+{% endblock %}

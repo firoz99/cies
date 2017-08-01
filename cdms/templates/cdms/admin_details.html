@@ -1,0 +1,56 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Admin details{% endblock %}
+{% load my_filters %}
+{% block active-admin %}active{% endblock %}
+{% block active-admin-list %}active{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4">
+		{% if officer_temp.officer.pro_pic %}
+		  <img class="thumbnail" src="{{ officer_temp.officer.pro_pic.url }}" alt="Profile Picture" height="180">
+		{% endif %}
+		</div>
+		<div  class="col-lg-offset-4 col-lg-4">
+				<div class="btn-group">
+					<a class="btn btn-warning" href="{% url 'cdms:toggle_admin_state' officer_temp.id %}" role="button">{% if officer_temp.officer.admin_type == 'A' %}Remove Admin{% else %}Make Admin{% endif %}</a>
+					<a class="btn {% if officer_temp.is_active == 1 %}btn-danger{% else %}btn-success{% endif %}" href="{% url 'cdms:toggle_user_state' officer_temp.id 'admin' %}" role="button">{% if officer_temp.is_active == 1 %}Deactivate{% else %}Activate{% endif %}</a>
+				</div>
+				
+				<div class="btn-group pull-right">
+					<a class="btn btn-default" href="{% url 'cdms:admin_list' %}" role="button">Back to the list</a>
+					<a class="btn btn-success" href="{% url 'cdms:update_admin' officer_temp.id %}" role="button">Edit</a>
+				</div>
+			
+		</div>
+	</div><br/>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h2>{{ officer_temp.get_full_name }}<small>(@{{ officer_temp.username }})</small></h2>
+				<h4>{{ officer_temp.officer.get_rank_display }}</h4>
+				<h5>{{ officer_temp.officer.area }}</h5>
+				<br>
+				<div class="row">
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							ID : <strong>{{ officer_temp.officer.officer_id }}</strong><br>
+							Mobile Numbers : {{ officer_temp.officer.mobile }}<br>
+							Email : {{ officer_temp.email }}<br>
+						</address>
+					</div>
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							Administrative Position : <strong>{{ officer_temp.officer.position }}</strong><br>
+							Date joined : {{ officer_temp.date_joined }}<br>
+							Last login : <strong>{{ officer_temp.last_login }}</strong><br>
+						</address>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

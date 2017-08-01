@@ -1,0 +1,171 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Add a new admin{% endblock %}
+{% load my_filters %}
+{% block active-admin %}active{% endblock %}
+{% block active-officer-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        
+            <div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+                <div class="panel-body">
+                    <h3 class="text-center"><u>Add A New Officer</u></h3><br>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+					
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+						
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.first_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.first_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ user_form.first_name.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.last_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.last_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ user_form.last_name.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.username.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.username|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ user_form.username.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.password.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.password|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ user_form.password.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ user_form.email.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.email|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ user_form.email.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ officer_form.mobile.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.mobile|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ officer_form.mobile.errors }}</span></div>
+							</div>
+						</div>	
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.rank.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.rank|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ officer_form.rank.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.officer_id.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.officer_id|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ officer_form.officer_id.errors }}</span></div>
+							</div>
+						</div>
+					
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.position.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.position|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ officer_form.position.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.officer_type.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.officer_type|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ officer_form.officer_type.errors }}</span></div>
+							</div>
+						</div>
+
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.district.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.district|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ officer_form.district.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ officer_form.thana.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.thana|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ officer_form.thana.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ officer_form.area.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.area|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-8"><span class="text-danger help-block">*Circle/Zone, District/Division, Range/Metro ,Branch/PHQ (optional for officer in Thana)</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-8"><span class="text-danger help-block">{{ officer_form.area.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ officer_form.pro_pic.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ officer_form.pro_pic|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ officer_form.pro_pic.errors }}</span></div>
+							</div>
+						</div>
+                     
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script>
+
+$(document).ready(function(){
+	
+	if($('select[name=district]').val()){
+		getThanas();
+	}
+
+    $('select[name=district]').on('change', getThanas)
+	
+	function getThanas(){
+		district_id = $('select[name=district]').val();
+		request_url = '/cdms/get_thanas/' + district_id + '/';
+		$('select[name=thana]').prop('disabled', false);
+		$('select[name=thana]').find('option').remove();
+		$('select[name=thana]').append($('<option>', { 
+								value: "",
+								text : "---------" 
+							}));
+
+		$.ajax({
+				url: request_url,
+				success: function(items){
+					$.each(items, function (i, item) {
+						$('select[name=thana]').append($('<option>', { 
+							value: i,
+							text : item 
+						}));
+					});
+				}
+			})
+		
+	}
+	
+});
+
+</script>
+{% endblock %}

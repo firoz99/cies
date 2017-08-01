@@ -1,0 +1,67 @@
+{% extends 'cdms/base.html' %}
+{% load my_filters %}
+{% block title %}Admin list{% endblock %}
+{% block active-admin %}active{% endblock %}
+{% block active-admin-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row details-action-btn-row">
+		<div  class="col-lg-offset-8 col-lg-4">
+			<a class="btn btn-success pull-right" href="{% url 'cdms:add_admin' %}" role="button">Add new admin</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h4><u>Super Admin List:</u></h4>
+		</div>
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">
+			     
+              <tbody>
+				{% if super_admins %}
+					{% for super_admin in super_admins %}
+						
+						<tr onclick="window.document.location='{% url 'cdms:admin_details' super_admin.id %}'" class="">
+						
+							<td>{{ forloop.counter }}</td>
+							<td>{{ super_admin.username }}</td>
+							<td>{{ super_admin.get_full_name }}</td>
+							<td><i class="fa {% if super_admin.is_active == 1 %}fa-check-circle text-success{% else %}fa-times-circle text-danger{% endif %}"></i></td>
+													
+						</tr>  
+						
+					{% endfor %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h4><u> Admin List:</u></h4>
+		</div>
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">
+			     
+              <tbody>
+				{% if admins %}
+					{% for admin in admins %}
+						
+						<tr onclick="window.document.location='{% url 'cdms:admin_details' admin.id %}'" class="">
+						
+							<td>{{ forloop.counter }}</td>
+							<td>{{ admin.username }}</td>
+							<td>{{ admin.get_full_name }}</td>
+							<td><i class="fa {% if admin.is_active == 1 %}fa-check-circle text-success{% else %}fa-times-circle text-danger{% endif %}"></i></td>						
+						</tr>  
+						
+					{% endfor %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+
+	</div>
+{% endblock %}

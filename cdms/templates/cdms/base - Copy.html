@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CDMS{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>
+    <link rel="stylesheet" href="{% static 'cdms/bootstrap-3.3.7/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'cdms/style.css' %}"/>
+	{% block forCSS %}
+	{% endblock %}
+	
+    <script src="{% static 'cdms/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'cdms/bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'cdms:index' %}">CDMS</a>
+        </div>
+
+        <!-- Items -->
+        <div class="collapse navbar-collapse" id="topNavBar">
+            <ul class="nav navbar-nav">
+                <li class="{% block albums_active %}{% endblock %}"><a href="{% url 'cdms:index' %}"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>&nbsp; Home</a></li>
+                <li class="{% block songs_active %}{% endblock %}"><a href="#"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp; Search</a></li>
+            </ul>
+            
+        </div>
+
+    </div>
+</nav>
+
+
+{% block body %}
+{% endblock %}
+
+{% block forJS %}
+{% endblock %}
+</body>
+</html>

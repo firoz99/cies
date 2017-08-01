@@ -1,0 +1,255 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Add A New Criminal Record{% endblock %}
+{% load my_filters %}
+{% block active-criminal %}active{% endblock %}
+{% block active-add-new %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+
+        
+            <div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+                <div class="panel-body">
+                    <h3 class="text-center">Add A New Criminal Record</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+					
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+						
+						<div>
+							<br/><h4><u>Criminal ID & Area</u>:</h4><br/>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.criminal_id.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.criminal_id|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.criminal_id.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-6">{{ form.criminal_status.label_tag }}</div>
+									<div class="col-sm-10 col-lg-6">{{ form.criminal_status|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ form.criminal_status.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.district.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.district|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.district.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-6">{{ form.thana.label_tag }}</div>
+									<div class="col-sm-10 col-lg-6">{{ form.thana|thanaFieldAddClass:'form-control' }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ form.thana.errors }}</span></div>
+								</div>
+							</div>
+						</div>
+						
+						<div>
+							<h4><u>Criminal Informations</u>:</h4><br/>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.name.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.name|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.name.errors }}</span></div>
+								</div>
+							</div>	
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.aliases.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.aliases|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset- 2 col-lg-6"><span class="help-block">*use comma(,) to separate multiple names.</span></div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.aliases.errors }}</span></div>
+								</div>
+							</div>	
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.dob.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.dob|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">*MM/DD/YYYY</span></div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.dob.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.birth_place.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.birth_place|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.birth_place.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.father_name.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.father_name|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.father_name.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.mother_name.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.mother_name|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.mother_name.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.present_address.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.present_address|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.present_address.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.permanent_address.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.permanent_address|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.permanent_address.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.hair.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.hair|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.hair.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.eyes.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.eyes|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.eyes.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.height.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.height|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.height.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.weight.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.weight|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.weight.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.gender.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.gender|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.gender.errors }}</span></div>
+								</div>
+								
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+									<div class="control-label col-sm-2 col-lg-4">{{ form.race.label_tag }}</div>
+									<div class="col-sm-10 col-lg-8">{{ form.race|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.race.errors }}</span></div>
+								</div>
+							</div>
+								
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.scars_and_marks.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.scars_and_marks|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.scars_and_marks.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.nationality.label_tag }}</div>
+									<div class="col-sm-10 col-lg-6">{{ form.nationality|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.nationality.errors }}</span></div>
+								</div>
+							</div>
+
+						</div>
+						<div>
+							<h4><u>Crime details</u>:</h4><br/>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.crime_titles.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.crime_titles|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.crime_titles.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.description.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.description|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.description.errors }}</span></div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<h4><u>Rewards and remarks</u>:</h4><br/>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.rewards.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.rewards|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.rewards.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.remarks.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.remarks|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.remarks.errors }}</span></div>
+								</div>
+							</div>
+							<div class = "row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ form.cautions.label_tag }}</div>
+									<div class="col-sm-10 col-lg-9 width-79">{{ form.cautions|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.cautions.errors }}</span></div>
+								</div>
+							</div>
+						</div>
+                     
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script>
+
+$(document).ready(function(){
+	
+	if($('select[name=district]').val()){
+		getThanas();
+	}
+
+    $('select[name=district]').on('change', getThanas)
+	
+	function getThanas(){
+		district_id = $('select[name=district]').val();
+		request_url = '/cdms/get_thanas/' + district_id + '/';
+		$('select[name=thana]').prop('disabled', false);
+		$('select[name=thana]').find('option').remove();
+
+		$.ajax({
+				url: request_url,
+				success: function(items){
+					$.each(items, function (i, item) {
+						$('select[name=thana]').append($('<option>', { 
+							value: i,
+							text : item 
+						}));
+					});
+				}
+			})
+		
+	}
+	
+});
+
+</script>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'cdms/base.html' %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block active-criminal %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <!-- Albums -->
+    <div class="row">
+		<div class="col-sm-12">
+            <h3><a href="{% url 'cdms:criminal_details' criminal.id %}">{{ criminal }}</a>'s Images</h3>
+        </div>
+
+            {% for images in criminal.criminal_images_set.all %}
+                <div class="col-sm-4 col-lg-2">
+                    <div class="thumbnail">
+                        <img src="{{ images.image.url }}" class="img-responsive">
+                        <div class="caption">
+
+                            <!-- Delete Album -->
+                            <form action="{% url 'cdms:delete_image' criminal.id images.id %}" method="post" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="criminal_images_id" value="{{ images.id }}" />
+                                <button type="submit" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+                {% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+            {% endfor %}
+			
+
+    </div>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h3>Add a New Image</h3>
+				 <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+					<input type="hidden" name="criminal" value="{{ criminal }}">
+					<div class="form-group">
+						<div class="col-sm-offset-2 col-sm-10">
+							<span class="text-danger small">{{ form.image.errors }}</span>
+						</div>
+						<label class="control-label col-sm-4">{{ form.image.label_tag }}</label>
+						<div class="col-sm-6">
+							{{ form.image|imageFieldAddClass:'filestyle' }}
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-10">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+</div>
+{% endblock %}
+{% block forJS %}
+	<script type="text/javascript" src="{% static 'cdms/js/bootstrap-filestyle.min.js' %}"> </script>
+{% endblock %}

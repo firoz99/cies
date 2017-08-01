@@ -1,0 +1,299 @@
+{% extends 'cdms/base.html' %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-file-fir %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center"><u>File a FIR</u></h3><br>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+				
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					
+					
+					<div class = "row">
+						<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+							<div class="control-label col-sm-2 col-lg-4">{{ fir_form.fir_number.label_tag }}</div>
+							<div class="col-sm-10 col-lg-8">{{ fir_form.fir_number|addclass:'form-control'  }}</div>
+							<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ fir_form.fir_number.errors }}</span></div>
+						</div>
+						
+						<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+							<div class="control-label col-sm-2 col-lg-4">{{ fir_form.section.label_tag }}</div>
+							<div class="col-sm-10 col-lg-8">{{ fir_form.section|addclass:'form-control'  }}</div>
+							<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ fir_form.section.errors }}</span></div>
+						</div>
+					</div>
+					
+					<div>
+						<h4><u>Complainant Information</u>:</h4><br/>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ complainant_form.name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10  col-my-10">{{ complainant_form.name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ complainant_form.name.errors }}</span></div>
+							</div>
+						</div>	
+						
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ complainant_form.father_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ complainant_form.father_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ complainant_form.father_name.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ complainant_form.mother_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ complainant_form.mother_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ complainant_form.mother_name.errors }}</span></div>
+							</div>
+						</div>
+					
+							
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ complainant_form.present_address.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ complainant_form.present_address|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ complainant_form.present_address.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ complainant_form.permanent_address.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ complainant_form.permanent_address|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ complainant_form.permanent_address.errors }}</span></div>
+							</div>
+						</div>
+
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ complainant_form.national_id.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ complainant_form.national_id|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ complainant_form.national_id.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ complainant_form.mobile.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ complainant_form.mobile|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ complainant_form.mobile.errors }}</span></div>
+							</div>
+						</div>
+
+					</div>
+					
+					<div>
+						<h4><u>Victims Information</u>:</h4><br/>
+						{{ victim_form_set.management_form }}
+						{% for victim_form in victim_form_set %}
+							{% for hidden in victim_form.hidden_fields %}
+								{{ hidden }}
+							{% endfor %} 
+							<div class = "victim_formset_row">
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ victim_form.vname.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ victim_form.vname|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ victim_form.vname.errors }}</span></div>
+									</div>
+								</div>	
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ victim_form.vfather_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ victim_form.vfather_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ victim_form.vfather_name.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ victim_form.vmother_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ victim_form.vmother_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ victim_form.vmother_name.errors }}</span></div>
+									</div>
+								</div>
+							
+									
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ victim_form.vpresent_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ victim_form.vpresent_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ victim_form.vpresent_address.errors }}</span></div>
+									</div>
+								</div>
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ victim_form.vpermanent_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ victim_form.vpermanent_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ victim_form.vpermanent_address.errors }}</span></div>
+									</div>
+								</div>
+
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ victim_form.vnational_id.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ victim_form.vnational_id|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ victim_form.vnational_id.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ victim_form.vmobile.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ victim_form.vmobile|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ victim_form.vmobile.errors }}</span></div>
+									</div>
+								</div>
+								<hr>
+							</div>
+						{% endfor %}
+					</div><br>
+					
+					<div>
+						<h4><u>Defendant Information</u>:</h4><br/>
+						{{ defendant_form_set.management_form }}
+						{% for defendant_form in defendant_form_set %}
+							{% for hidden in defendant_form.hidden_fields %}
+								{{ hidden }}
+							{% endfor %} 
+							<div class = "defendant_formset_row">
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ defendant_form.name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ defendant_form.name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ defendant_form.name.errors }}</span></div>
+									</div>
+								</div>	
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ defendant_form.father_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ defendant_form.father_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ defendant_form.father_name.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ defendant_form.mother_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ defendant_form.mother_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ defendant_form.mother_name.errors }}</span></div>
+									</div>
+								</div>
+							
+									
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ defendant_form.present_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ defendant_form.present_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ defendant_form.present_address.errors }}</span></div>
+									</div>
+								</div>
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ defendant_form.permanent_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ defendant_form.permanent_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ defendant_form.permanent_address.errors }}</span></div>
+									</div>
+								</div>
+
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ defendant_form.criminal_id.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ defendant_form.criminal_id|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">*if previous criminal records available</span></div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ defendant_form.criminal_id.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ defendant_form.mobile.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ defendant_form.mobile|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ defendant_form.mobile.errors }}</span></div>
+									</div>
+								</div>
+								<hr>
+							</div>
+						{% endfor %}
+					</div><br>
+					
+					<div>
+						<h4><u>Crime details</u>:</h4><br/>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ fir_form.reason.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ fir_form.reason|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ fir_form.reason.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ fir_form.location.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ fir_form.location|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ fir_form.location.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ fir_form.description.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ fir_form.description|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ fir_form.description.errors }}</span></div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<h4><u>Upload Files</u>:</h4><br/>
+						{{ fir_files_form_set.management_form }}
+						{% for fir_files_form in fir_files_form_set %}
+							{% for hidden in fir_files_form.hidden_fields %}
+								{{ hidden }}
+							{% endfor %} 
+							<div class = "row file_formset_row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ fir_files_form.file.label_tag }}</div>
+									<div class="col-sm-10 col-lg-10 col-my-10">{{ fir_files_form.file|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ fir_files_form.file.errors }}</span></div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				 
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script src="{% static 'cdms/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+	 $('.victim_formset_row').formset({
+        addText: 'add another victim',
+        deleteText: 'remove',
+    });
+	
+    $('.defendant_formset_row').formset({
+        addText: 'add another defendant',
+        deleteText: 'remove',
+    });
+	
+	$('.file_formset_row').formset({
+        addText: 'add another file',
+        deleteText: 'remove',
+    });
+</script>
+{% endblock %}

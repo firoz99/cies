@@ -1,0 +1,37 @@
+{% extends 'cdms/base.html' %}
+{% load my_filters %}
+{% block title %}GD list{% endblock %}
+{% block active-gd-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-12">
+			<h4><u>GD List:</u></h4>
+		</div>
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">
+			     
+              <tbody>
+				{% if gds %}
+					{% for gd in gds %}
+						
+						<tr onclick="window.document.location='{% url 'cdms:gd_details' gd.id %}'" class="{% if user.officer.is_level_4 and gd.seen_by_sub == 0 or user.officer.is_level_3 and gd.seen_by_sup == 0 %}success{% endif %}">
+						
+							<td>{{ forloop.counter }}</td>
+							<td>{{ gd.name }}</td>
+							<td><i class="{{ gd.gd_files_set.count|attachmentClip }}"></i></td>
+							<td>{{ gd.description|sizeLimit }}</td>
+							<td>{{ gd.date_time }}</td>
+							<td><i class="fa {% if gd.is_action_taken == 1 %}fa-check-circle text-success{% else %}fa-times-circle text-danger{% endif %}"></i></td>
+											
+						</tr>  
+						
+					{% endfor %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+
+	</div>
+{% endblock %}
