@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <html>
+     <head>
+         <title>{{ case.fir_number }}</title>
+         <style type="text/css">
+
+			 body {
+				margin: 0;
+				padding: 0;
+			}
+
+			.container {
+				position: relative;
+				width: 100%;
+			}
+
+			 .text-center{
+				text-align: center;
+
+			 }
+			 .right {
+				position: absolute;
+				right: 0px;
+				padding-right: 30px;
+				display:inline-block;
+			}
+			 .left {
+				width: 300px;
+				display:inline-block;
+				padding: 30px;
+			}
+			.address-div{
+				padding-left: 30px;
+				padding-bottom: 20px;
+				padding-right: 20px;
+			}
+			 .victim-list{
+				width : 400px;
+				display:inline-block;
+			}
+         </style>
+     </head>
+     <body>
+	<div class="container">
+        <h2 class="text-center"><u>{{ case.thana }}, {{ case.district }}</u></h2>
+		
+		<div class="left">
+			<p><strong>FIR Number: </strong> {{ case.fir_number }}</p>
+			<p><strong>Date: </strong> {{ case.date_time }}</p>
+		</div>
+		<div class="right">
+			<h4><u>Duty Officer:</u></h4>
+			<p><strong>{{ case.duty_officer.get_full_name }}</strong><br>
+			{{ case.duty_officer.get_rank_display }}</p>
+		</div>
+		<div class="address-div">
+			<strong><u>Complainant Informations:</u></strong>
+			<address>
+			<strong>Name: </strong> {{ case.complainant.name }}<br>
+			<strong>Father's Name: </strong> {{ case.complainant.father_name }}<br>
+			<strong>Mother's Name: </strong> {{ case.complainant.mother_name }}<br>
+			<strong>Present Address: </strong> {{ case.complainant.present_address }}<br>
+			<strong>Permanent Address: </strong>  {{ case.complainant.permanent_address }}<br>
+			<strong>National ID: </strong> {{ case.complainant.natinal_id }}<br>
+			<strong>Mobile: </strong> {{ case.complainant.mobile }}<br>
+			</address>
+		</div>
+		<div class="address-div">
+			<strong><u>Victim Informations:</u></strong><br><br>
+			{% for victim in case.victim_set.all %}
+			<div class="victim-list">
+			<address>
+			<strong>Name: </strong> {{ victim.vname }}<br>
+			<strong>Father's Name: </strong> {{ victim.vfather_name }}<br>
+			<strong>Mother's Name: </strong> {{ victim.vmother_name }}<br>
+			<strong>Present Address: </strong> {{ victim.vpresent_address }}<br>
+			<strong>Permanent Address: </strong>  {{ victim.vpermanent_address }}<br>
+			<strong>National ID: </strong> {{ victim.vnational_id }}<br>
+			<strong>Mobile: </strong> {{ victim.vmobile }}<br>
+			</address>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="address-div">
+			<strong><u>Defendant Informations:</u></strong><br><br>
+			{% for defendant in case.defendant_set.all %}
+			<div class="victim-list">
+			<address>
+			<strong>Name: </strong> {{ defendant.name }}<br>
+			<strong>Father's Name: </strong> {{ defendant.father_name }}<br>
+			<strong>Mother's Name: </strong> {{ defendant.mother_name }}<br>
+			<strong>Present Address: </strong> {{ defendant.present_address }}<br>
+			<strong>Permanent Address: </strong>  {{ defendant.permanent_address }}<br>
+			<strong>Criminal ID: </strong> {{ defendant.criminal_id }}<br>
+			<strong>Mobile: </strong> {{ defendant.mobile }}<br>
+			</address>
+			</div>
+			{% endfor %}
+		</div>
+		<div class="address-div">
+			<strong>Section of Rule: </strong> {{ case.section }}<br>
+			<strong>Reason of being late to file a FIR: </strong> {{ case.reason }}<br>
+			<strong>Location and distance: </strong> {{ case.location }}<br>
+			<strong><u>Crime Details: </u></strong>
+			<p>
+				{{ case.description|linebreaks }}
+			</p>
+		</div>
+		<div class="address-div">
+			<strong><u>Attached Files : </u></strong>
+			<ol>
+				{% for files in case.case_fir_files_set.all %}
+				<li>{{ files.file.name }}</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>	
+     </body>
+ </html>

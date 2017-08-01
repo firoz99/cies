@@ -1,0 +1,15 @@
+{% extends 'cdms/base.html' %}
+{% block active-home %}active{% endblock %}
+{% load staticfiles %}
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<br> <br> <br><br> <br>
+		<div class="col-lg-offset-4 col-lg-4">
+			<img src="{% static 'cdms/images/logo.png' %}" height="400px">
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Add Charge Sheet{% endblock %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center"><u>Add charge sheet</u></h3><br>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+				
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					
+					<div class = "accused_formset_row">
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ add_charge_sheet.name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ add_charge_sheet.name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.name.errors }}</span></div>
+									</div>
+								</div>	
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ add_charge_sheet.aliases.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ add_charge_sheet.aliases|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.aliases.errors }}</span></div>
+									</div>
+								</div>
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ add_charge_sheet.father_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ add_charge_sheet.father_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.father_name.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ add_charge_sheet.mother_name.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ add_charge_sheet.mother_name|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.mother_name.errors }}</span></div>
+									</div>
+								</div>
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ add_charge_sheet.present_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ add_charge_sheet.present_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.present_address.errors }}</span></div>
+									</div>
+									
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+										<div class="control-label col-sm-2 col-lg-4">{{ add_charge_sheet.permanent_address.label_tag }}</div>
+										<div class="col-sm-10 col-lg-8">{{ add_charge_sheet.permanent_address|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.permanent_address.errors }}</span></div>
+									</div>
+								</div>
+							
+									
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ add_charge_sheet.charges.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ add_charge_sheet.charges|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ add_charge_sheet.charges.errors }}</span></div>
+									</div>
+								</div>
+								
+					</div>
+					
+				 
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script src="{% static 'cdms/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.accused_formset_row').formset({
+        addText: 'add another accused',
+        deleteText: 'remove',
+    });
+	
+</script>
+{% endblock %}

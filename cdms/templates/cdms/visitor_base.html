@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}CIES{% endblock %}</title>
+    {% load staticfiles %}
+    <link rel="shortcut icon" type="image/png" href="{%  static 'cdms/images/fav.png' %}"/>
+    <link rel="stylesheet" href="{% static 'cdms/bootstrap-3.3.7/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'cdms/css/font-awesome.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'cdms/style.css' %}"/>
+	{% block forCSS %}
+	{% endblock %}
+	
+    <script src="{% static 'cdms/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'cdms/bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+
+</head>
+<body>
+	<nav class = "nacbar navbar-inverse">
+		<div class="container-fluid">
+			<!-- logo -->
+			<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+				<a class="navbar-brand" href="{% url 'cdms:index' %}">Crime Investigation Enhancement System</a>
+			</div>
+			
+			<div class="collapse navbar-collapse"  id="topNavBar">				
+				
+				<ul class="nav navbar-nav navbar-right">
+					<li class="{% block activeMostWanted %}{% endblock %}">
+						<a href="{% url 'cdms:most_wanted' %}">
+							Most Wanted
+						</a>
+					</li>
+					<li class="{% block activeWanted %}{% endblock %}">
+						<a href="{% url 'cdms:wanted' %}">
+							Wanted
+						</a>
+					</li>
+				
+					<li class="{% block activeSearchThana %}{% endblock %}">
+						<a href="{% url 'cdms:search_thana' %}">
+							Find Thana
+						</a>
+					</li>
+					<li class="{% block activeGeneralDiary %}{% endblock %}">
+						<a href="{% url 'cdms:gd_form' %}">
+							Write a GD
+						</a>
+					</li>
+					<li class="{% block activeLogIn %}{% endblock %}">
+						<a href="{% url 'cdms:login' %}">
+							Admin Login
+						</a>
+					</li>
+				</ul>
+				
+			</div>
+			
+		</div>
+	</nav>
+
+<div>
+{% block body %}
+{% endblock %}
+</div>
+{% block forJS %}
+{% endblock %}
+</body>
+</html>

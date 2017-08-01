@@ -1,0 +1,180 @@
+{% extends 'cdms/visitor_base.html' %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block activeGeneralDiary %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center">General Diary</h3>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+				
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					
+					<div>
+						<br/><h4><u>To, Officer in Charge of </u>:</h4><br/>
+						
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ form.district.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ form.district|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.district.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-6">{{ form.thana.label_tag }}</div>
+								<div class="col-sm-10 col-lg-6">{{ form.thana|thanaFieldAddClass:'form-control' }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ form.thana.errors }}</span></div>
+							</div>
+						</div>
+					</div>
+					
+					<div>
+						<h4><u>Your Informations</u>:</h4><br/>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ form.name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ form.name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.name.errors }}</span></div>
+							</div>
+						</div>	
+						
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ form.father_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ form.father_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.father_name.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ form.mother_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ form.mother_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.mother_name.errors }}</span></div>
+							</div>
+						</div>
+					
+							
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ form.present_address.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ form.present_address|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.present_address.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ form.permanent_address.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ form.permanent_address|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="help-block">*House name, House number, Road name, Road number, Place, Upazila/Thana, District</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.permanent_address.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ form.national_id.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ form.national_id|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.national_id.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ form.mobile.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ form.mobile|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.mobile.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ form.email.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ form.email|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ form.email.errors }}</span></div>
+							</div>
+						</div>
+
+					</div>
+					<div>
+						<h4><u>Complain details</u>:</h4><br/>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ form.description.label_tag }}</div>
+								<div class="col-sm-10 col-lg-10 col-my-10">{{ form.description|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ form.description.errors }}</span></div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<h4><u>Upload Files</u>:</h4><br/>
+						{{ filesFormSet.management_form }}
+						{% for filesForm in filesFormSet %}
+							{% for hidden in filesForm.hidden_fields %}
+								{{ hidden }}
+							{% endfor %} 
+							<div class = "row formset_row">
+								<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+									<div class="control-label col-sm-2 col-lg-2">{{ filesForm.file.label_tag }}</div>
+									<div class="col-sm-10 col-lg-10 col-my-10">{{ filesForm.file|addclass:'form-control'  }}</div>
+									<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ filesForm.file.errors }}</span></div>
+								</div>
+							</div>
+						{% endfor %}
+					</div>
+				 
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+							<button type="submit" class="btn btn-success">Submit</button>
+						</div>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script src="{% static 'cdms/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.formset_row').formset({
+        addText: 'add another file',
+        deleteText: 'remove',
+    });
+</script>
+<script>
+
+$(document).ready(function(){
+	
+	if($('select[name=district]').val()){
+		getThanas();
+	}
+
+    $('select[name=district]').on('change', getThanas)
+	
+	function getThanas(){
+		district_id = $('select[name=district]').val();
+		request_url = '/cdms/get_thanas/' + district_id + '/';
+		$('select[name=thana]').prop('disabled', false);
+		$('select[name=thana]').find('option').remove();
+
+		$.ajax({
+				url: request_url,
+				success: function(items){
+					$.each(items, function (i, item) {
+						$('select[name=thana]').append($('<option>', { 
+							value: i,
+							text : item 
+						}));
+					});
+				}
+			})
+		
+	}
+	
+});
+
+</script>
+{% endblock %}

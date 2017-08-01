@@ -1,0 +1,138 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Update admin info{% endblock %}
+{% load my_filters %}
+{% block active-admin %}active{% endblock %}
+{% block active-admin-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+    <div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center"><u>Update Administrator Informations</u></h3><br>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+				
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.first_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.first_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ user_form.first_name.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.last_name.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.last_name|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ user_form.last_name.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.username.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.username|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ user_form.username.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ user_form.email.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ user_form.email|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ user_form.email.errors }}</span></div>
+							</div>
+						</div>
+
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ admin_form.mobile.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.mobile|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ admin_form.mobile.errors }}</span></div>
+							</div>
+						</div>	
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ admin_form.rank.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.rank|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ admin_form.rank.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ admin_form.officer_id.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.officer_id|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ admin_form.officer_id.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ admin_form.position.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.position|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-4 col-lg-6"><span class="text-danger help-block">{{ admin_form.position.errors }}</span></div>
+							</div>
+							
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-6">
+								<div class="control-label col-sm-2 col-lg-4">{{ admin_form.officer_type.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.officer_type|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">{{ admin_form.officer_type.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-4"><label>Make Super Admin ?:</label></div>
+								<div class="col-sm-10 col-lg-8"><input name="is_super_admin" type="checkbox" value="S" class="form-control" {% if super_admin == 'S' %}checked{% endif %}></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-6 col-lg-6"><span class="text-danger help-block">*A super admin can add/delete another admin.</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ admin_form.area.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.area|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">*Circle/Zone, District/Division, Range/Metro ,Branch/PHQ</span></div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ admin_form.area.errors }}</span></div>
+							</div>
+						</div>
+						<div class = "row">
+							<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+								<div class="control-label col-sm-2 col-lg-2">{{ admin_form.pro_pic.label_tag }}</div>
+								<div class="col-sm-10 col-lg-8">{{ admin_form.pro_pic|addclass:'form-control'  }}</div>
+								<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ admin_form.pro_pic.errors }}</span></div>
+							</div>
+						</div>
+                     
+                        <div class="form-group">
+                            <div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+                                <button type="submit" class="btn btn-success">Update</button>
+                            </div>
+                        </div>
+				</form>
+			</div>
+		</div>
+    </div>
+	<div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center"><u>Change Administrator Password</u></h3><br>
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}	
+					<div class = "row">
+						<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+							<div class="control-label col-sm-2 col-lg-2">{{ update_user_password_form.password.label_tag }}</div>
+							<div class="col-sm-10 col-lg-8">{{ update_user_password_form.password|addclass:'form-control'  }}</div>
+							<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ update_user_password_form.password.errors }}</span></div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+							<button type="submit" class="btn btn-success">Change</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+    </div>
+</div>
+{% endblock %}
+

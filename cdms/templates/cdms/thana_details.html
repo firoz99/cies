@@ -1,0 +1,106 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Thana Details{% endblock %}
+{% block active-thana %}active{% endblock %}
+{% block active-thana-list %}active{% endblock %}
+{% load my_filters %}
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div  class="col-lg-12">
+
+			<div class="btn-group pull-right">
+				<a class="btn btn-default" href="{% url 'cdms:thana_list' %}" role="button">Back to the list</a>
+				{% if user.officer.is_level_2 %}
+				<a class="btn btn-success" href="{% url 'cdms:update_thana' thana.id %}" role="button">Edit</a>
+				{% endif %}
+			</div>
+			
+		</div>
+	</div><br/>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h2>{{ thana.name }}</h2>
+				<h4>{{ thana.district.name }}</h4>
+				<br>
+				<div class="row">
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							Mobile Number : {{ thana.mobile }}<br>
+							Email : {{ thana.email }}<br>
+						</address>
+					</div>
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							Address : <strong>{{ thana.address|linebreaks }}</strong>						
+						</address>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<h4><u>Officer in Charge:</u></h4>
+		</div>
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">   
+              <tbody>
+				{% if ocs %}
+					{% for oc in ocs %}
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td onclick=window.open("{% url 'cdms:officer_details' oc.id %}","_blank") >{{ oc.get_full_name }}</td>
+							<td onclick=window.open("{% url 'cdms:officer_details' oc.id %}","_blank") >{{ oc.officer.get_rank_display }} {% if officer.officer.position %}( {{ officer.officer.position }} ){% endif %}</td>	
+							<td onclick=window.open("{% url 'cdms:officer_details' oc.id %}","_blank") >m: {{ oc.officer.mobile }}</td>
+							{% if user.officer.is_level_2 %}
+							<td><a class="btn btn-danger btn-sm" href="{% url 'cdms:remove_officer' oc.id thana.id %}">Remove</a></td>
+							{% endif %}
+						</tr>  
+					{% endfor %}
+				{% else %}
+					{% if user.officer.is_level_2 %}
+					<a class="btn btn-success" href="{% url 'cdms:appoint_oc' thana.id %}">Appoint an officer in-charge</a>
+					{% endif %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-4">
+			<h4><u>Officer List:</u></h4>
+			
+		</div>
+		<div class="col-lg-8">
+			{% if user.officer.is_level_2 %}
+			<a class="btn btn-success btn-sm pull-right" href="{% url 'cdms:appoint_officer' thana.id %}" role="button">Appoint a new officer</a>
+			{% endif %}
+		</div>
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">   
+              <tbody>
+				{% if officers %}
+					{% for officer in officers %}
+						
+						<tr>
+							<td>{{ forloop.counter }}</td>
+							<td onclick=window.open("{% url 'cdms:officer_details' officer.id %}","_blank") >{{ officer.get_full_name }}</td>
+							<td onclick=window.open("{% url 'cdms:officer_details' officer.id %}","_blank") >{{ officer.officer.get_rank_display }} {% if officer.officer.position %}( {{ officer.officer.position }} ){% endif %}</td>	
+							<td onclick=window.open("{% url 'cdms:officer_details' officer.id %}","_blank") >m: {{ officer.officer.mobile }}</td>
+							{% if user.officer.is_level_2 %}
+							<td><a class="btn btn-danger btn-sm" href="{% url 'cdms:remove_officer' officer.id thana.id %}">Remove</a></td>
+							{% endif %}
+						</tr>  
+						
+					{% endfor %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+	</div>
+	
+</div>
+{% endblock %}

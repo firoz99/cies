@@ -1,0 +1,51 @@
+{% extends 'cdms/base.html' %}
+{% block title %}{{ officer_temp.username }}'sProfile{% endblock %}
+{% load my_filters %}
+
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-lg-4">
+		{% if officer_temp.officer.pro_pic %}
+		  <img class="thumbnail" src="{{ officer_temp.officer.pro_pic.url }}" alt="Profile Picture" height="180">
+		{% endif %}
+		</div>
+		<div  class="col-lg-offset-4 col-lg-4">
+			
+				<div class="btn-group pull-right">
+					<a class="btn btn-default" href="{% url 'cdms:dashboard' %}" role="button">Back to the dashboard</a>
+				</div>
+			
+		</div>
+	</div><br/>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h2>{{ officer_temp.get_full_name }}<small>(@{{ officer_temp.username }})</small></h2>
+				<h4>{{ officer_temp.officer.get_rank_display }}</h4>
+				<h5>{{ officer_temp.officer.area }}</h5>
+				<h4>{% if officer_temp.officer.thana %}{{ officer_temp.officer.thana }},{% endif %} {% if officer_temp.officer.district %}{{ officer_temp.officer.district }}{% endif %}</h4>
+				<br>
+				<div class="row">
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							ID : <strong>{{ officer_temp.officer.officer_id }}</strong><br>
+							Mobile Numbers : {{ officer_temp.officer.mobile }}<br>
+							Email : {{ officer_temp.email }}<br>
+						</address>
+					</div>
+					<div  class="col-lg-6 col-xs-6">
+						<address>
+							Administrative Position : <strong>{{ officer_temp.officer.position }}</strong><br>
+							Date joined : {{ officer_temp.date_joined }}<br>
+							Last login : <strong>{{ officer_temp.last_login }}</strong><br>
+						</address>
+					</div>
+				</div>	
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

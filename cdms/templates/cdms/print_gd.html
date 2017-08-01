@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+ <html>
+     <head>
+         <title>{{ gd.id }}</title>
+         <style type="text/css">
+
+			 body {
+				margin: 0;
+				padding: 0;
+			}
+
+			.container {
+				position: relative;
+				width: 100%;
+			}
+
+			 .text-center{
+				text-align: center;
+
+			 }
+			 .right {
+				position: absolute;
+				right: 0px;
+				padding-right: 30px;
+				display:inline-block;
+			}
+			 .left {
+				width: 300px;
+				display:inline-block;
+				padding: 30px;
+			}
+			.address-div{
+				padding-left: 30px;
+				padding-bottom: 20px;
+				padding-right: 20px;
+			}
+			 .victim-list{
+				width : 400px;
+				display:inline-block;
+			}
+         </style>
+     </head>
+     <body>
+	<div class="container">
+        <h2 class="text-center"><u>{{ gd.thana }}, {{ gd.district }}</u></h2>
+		
+		<div class="left">
+			<p><strong>GD Number: </strong> {{ gd.id }}</p>
+			<p><strong>Date: </strong> {{ gd.date_time }}</p>
+		</div>
+		
+		<div class="address-div">
+			<strong><u>Applicant Informations:</u></strong>
+			<address>
+			<strong>Name: </strong> {{ gd.name }}<br>
+			<strong>Father's Name: </strong> {{ gd.father_name }}<br>
+			<strong>Mother's Name: </strong> {{ gd.mother_name }}<br>
+			<strong>Present Address: </strong> {{ gd.present_address }}<br>
+			<strong>Permanent Address: </strong>  {{ gd.permanent_address }}<br>
+			<strong>National ID: </strong> {{ gd.natinal_id }}<br>
+			<strong>Mobile: </strong> {{ gd.mobile }}<br>
+			</address>
+		</div>
+	
+	
+		<div class="address-div">
+
+			<strong><u>Details: </u></strong>
+			<p>
+				{{ gd.description|linebreaks }}
+			</p>
+		</div>
+		<div class="address-div">
+			<strong><u>Attached Files : </u></strong>
+			<ol>
+				{% for files in gd.gd_files_set.all %}
+				<li>{{ files.file.name }}</li>
+				{% endfor %}
+			</ol>
+		</div>
+	</div>	
+     </body>
+ </html>

@@ -1,0 +1,58 @@
+{% extends 'cdms/base.html' %}
+{% block title %}GD details{% endblock %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row details-action-btn-row">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="btn-group">
+					<a class="btn btn-{% if BtnValue == 'caseDetailsBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_details' case.id %}" role="button">FIR Details</a>
+					<a class="btn btn-{% if BtnValue == 'investigatinOfficerBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_investigation_officers' case.id %}" role="button">Investigation Officers</a>
+					<a class="btn btn-{% if BtnValue == 'caseUpdatesBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_updates' case.id %}" role="button">Updates</a>
+					<a class="btn btn-{% block active-charge-sheet %}default{% endblock %}" href="{% url 'cdms:case_details' case.id %}" role="button">Charge Sheet</a>
+					<a class="btn btn-{% block active-case-result %}default{% endblock %}" href="{% url 'cdms:case_details' case.id %}" role="button">Result</a>
+				</div>
+			</div>
+		
+		<div  class="col-lg-4">
+			<div class="btn-group pull-right">
+				<a class="btn btn-default" href="{% url 'cdms:case_list' %}" role="button">Back to the list</a>
+				<a class="btn btn-success" href="{% url 'cdms:assign_investigation_officer' case.id %}" role="button">Assign an investigation officer</a>
+			</div>
+		</div>
+	</div>	<br>
+	<h4><u>Investigation Officer List</u></h4>
+	<div class="row">
+	
+	{% for officer in case.investigation_officer_set.all %}
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-3 col-xs-3">
+					<h4>{{ officer.officer.get_full_name }}</h4>
+					<h5>{{ officer.officer.officer.get_rank_display }}</h5>
+				</div>
+				<div  class="col-lg-3 col-xs-3">
+					<u>Assigned By:</u>
+					<h4>{{ officer.assign_by.get_full_name }}</h4>
+					<h5>{{ officer.assign_by.officer.get_rank_display }}</h5>
+				</div>
+				<div  class="col-lg-3 col-xs-3">
+					<h5>Started form : {{ officer.date_time }}</h5>
+					<h5>Closed in : {{ officer.closing_date_time }}</h5>
+				</div>
+				<div  class="col-lg-3 col-xs-3">
+					<a class="btn btn-danger {% if officer.closed == 1 %}disabled{% endif %}" href="{% url 'cdms:close_form_case' officer.id %}" role="button">Close from this case</a>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+	
+</div>
+{% endblock %}

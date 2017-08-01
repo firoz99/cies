@@ -1,0 +1,51 @@
+{% extends 'cdms/base.html' %}
+{% load my_filters %}
+{% block title %}Officers list{% endblock %}
+{% block active-admin %}active{% endblock %}
+{% block active-officer-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-lg-8">
+			<h4><u> Officers List:</u></h4>
+		</div>
+		<div  class="col-lg-4">
+			<a class="btn btn-success pull-right" href="{% url 'cdms:add_officer' %}" role="button">Add new officer</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="btn-group">
+				<a class="btn btn-{% if BtnValue == 'thanaBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:officer_list' %}" role="button">Crime Officer</a>
+				<a class="btn btn-{% if BtnValue == 'adminBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:officer_list_admin' %}" role="button">Administrative Officer</a>
+				<a class="btn btn-{% if BtnValue == 'reserveBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:officer_list_reserve' %}" role="button">Fresher & Reserve Officer</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		
+		<div class="col-lg-12">
+			<table class="table table-hover gd-table">
+			     
+              <tbody>
+				{% if officers %}
+					{% for officer in officers %}
+						
+						<tr onclick="window.document.location='{% url 'cdms:officer_details' officer.id %}'" class="">
+						
+							<td>{{ forloop.counter }}</td>
+							<td>{{ officer.username }}</td>
+							<td>{{ officer.get_full_name }}</td>
+							<td><i class="fa {% if officer.is_active == 1 %}fa-check-circle text-success{% else %}fa-times-circle text-danger{% endif %}"></i></td>						
+						</tr>  
+						
+					{% endfor %}
+				{% endif %}
+              </tbody>
+            </table>
+		</div>
+
+	</div>
+{% endblock %}

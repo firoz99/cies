@@ -1,0 +1,62 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Add Case Verdict{% endblock %}
+{% load staticfiles %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+		<div class="panel panel-default col-sm-12 col-md-offset-1 col-md-10 col-lg-offset-1 col-lg-10">
+			<div class="panel-body">
+				<h3 class="text-center"><u>Upload a copy of verdict</u></h3><br>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+				
+				<form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ verdict_files_form_set.management_form }}
+						{% for verdict_files_form in verdict_files_form_set %}
+							{% for hidden in verdict_files_form.hidden_fields %}
+								{{ hidden }}
+							{% endfor %} 
+					
+							<div class = "verdict_formset_row">
+								
+								<div class = "row">
+									<div class="form-group col-sm-offset-2 col-sm-10 col-lg-12">
+										<div class="control-label col-sm-2 col-lg-2">{{ verdict_files_form.file.label_tag }}</div>
+										<div class="col-sm-10 col-lg-10 col-my-10">{{ verdict_files_form.file|addclass:'form-control'  }}</div>
+										<div class="col-sm-offset-2 col-sm-10 col-lg-offset-2 col-lg-6"><span class="text-danger help-block">{{ verdict_files_form.file.errors }}</span></div>
+									</div>
+								</div>	
+								
+								
+							</div>
+						{% endfor %}
+					
+					<br><br>
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8 col-lg-offset-2 col-lg-6">
+							<button type="submit" class="btn btn-success">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block forJS %}
+<script src="{% static 'cdms/js/jquery.formset.js' %}"></script>
+<script type="text/javascript">
+    $('.verdict_formset_row').formset({
+        addText: 'add another file',
+        deleteText: 'remove',
+    });
+	
+</script>
+{% endblock %}

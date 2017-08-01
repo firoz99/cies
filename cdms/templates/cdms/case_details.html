@@ -1,0 +1,137 @@
+{% extends 'cdms/base.html' %}
+{% block title %}Case details{% endblock %}
+{% load my_filters %}
+{% block active-case %}active{% endblock %}
+{% block active-case-list %}active{% endblock %}
+
+
+
+{% block body %}
+<div class="container-fluid">
+	<div class="row details-action-btn-row">
+		<div class="row">
+			<div class="col-lg-8">
+				<div class="btn-group">
+					<a class="btn btn-{% if BtnValue == 'caseDetailsBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_details' case.id %}" role="button">FIR Details</a>
+					{% if user.officer.is_level_3 %}
+					<a class="btn btn-{% if BtnValue == 'investigatinOfficerBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_investigation_officers' case.id %}" role="button">Investigation Officers</a>
+					{% endif %}
+					<a class="btn btn-{% if BtnValue == 'caseUpdatesBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_updates' case.id %}" role="button">Updates</a>
+
+					<a class="btn btn-{% if BtnValue == 'chargeSheetBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:charge_sheet' case.id %}" role="button">Charge Sheet</a>
+					<a class="btn btn-{% if BtnValue == 'verdictBtn' %}primary{% else %}default{% endif %}" href="{% url 'cdms:case_verdict' case.id %}" role="button">Verdict</a>
+
+				</div>
+			</div>
+		
+		<div  class="col-lg-4">
+			<div class="btn-group pull-right">
+				<a class="btn btn-default" href="{% url 'cdms:case_list' %}" role="button">Back to the list</a>
+				{% if user.officer.is_level_3 %}
+				<div class="btn-group pull-right">
+				  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+					Options
+					<span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+					<li><a target="_blank" href="{% url 'cdms:print_fir' case.id %}">Print</a></li>
+					<li><a href="{% url 'cdms:case_transfer' case.id %}">Transfer</a></li>
+				  </ul>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>	<br>
+	<div class="row">
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-6 col-xs-6">
+					<p><strong>FIR Number: </strong> {{ case.fir_number }}</p>
+					<p><strong>Date: </strong> {{ case.date_time }}</p>
+				</div>
+				<div  class="col-lg-6 col-xs-6">
+					<h4><u>Duty Officer:</u></h4>
+					<p><strong>{{ case.duty_officer.get_full_name }}</strong><br>
+					{{ case.duty_officer.get_rank_display }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-11 col-xs-11">
+					<h4>Complainant Informations: </h4>	
+					<strong>Name: </strong> {{ case.complainant.name }}<br>
+					<strong>Father's Name: </strong> {{ case.complainant.father_name }}<br>
+					<strong>Mother's Name: </strong> {{ case.complainant.mother_name }}<br>
+					<strong>Present Address: </strong> {{ case.complainant.present_address }}<br>
+					<strong>Permanent Address: </strong>  {{ case.complainant.permanent_address }}<br>
+					<strong>National ID: </strong> {{ case.complainant.natinal_id }}<br>
+					<strong>Mobile: </strong> {{ case.complainant.mobile }}<br>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">	
+				<h4>Victim Informations: </h4>	
+				{% for victim in case.victim_set.all %}
+				<div class="col-xs-6 col-md-4 ">
+					<strong>Name: </strong> {{ victim.vname }}<br>
+					<strong>Father's Name: </strong> {{ victim.vfather_name }}<br>
+					<strong>Mother's Name: </strong> {{ victim.vmother_name }}<br>
+					<strong>Present Address: </strong> {{ victim.vpresent_address }}<br>
+					<strong>Permanent Address: </strong>  {{ victim.vpermanent_address }}<br>
+					<strong>National ID: </strong> {{ victim.vnational_id }}<br>
+					<strong>Mobile: </strong> {{ victim.vmobile }}<br>
+				</div>
+				{% cycle '' '' '' '<div class="clearfix visible-lg"></div>' %}
+				{% endfor %}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">	
+				<h4>Defendant Informations: </h4>	
+				{% for defendant in case.defendant_set.all %}
+				<div class="col-xs-6 col-md-4 ">
+					<strong>Name: </strong> {{ defendant.name }}<br>
+					<strong>Father's Name: </strong> {{ defendant.father_name }}<br>
+					<strong>Mother's Name: </strong> {{ defendant.mother_name }}<br>
+					<strong>Present Address: </strong> {{ defendant.present_address }}<br>
+					<strong>Permanent Address: </strong>  {{ defendant.permanent_address }}<br>
+					<strong>Criminal ID: </strong> {{ defendant.criminal_id }}<br>
+					<strong>Mobile: </strong> {{ defendant.mobile }}<br>
+				</div>
+				{% cycle '' '' '' '<div class="clearfix visible-lg"></div>' %}
+				{% endfor %}
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">		
+				<div  class="col-lg-11 col-xs-11">
+					<strong>Section of Rule: </strong> {{ case.section }}<br>
+					<strong>Reason of being late to file a FIR: </strong> {{ case.reason }}<br>
+					<strong>Location and distance: </strong> {{ case.location }}<br>
+					<strong><u>Crime Details: </u></strong>
+					<p>
+						{{ case.description|linebreaks }}
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		{% for files in case.case_fir_files_set.all %}
+			<div class="col-xs-4 col-md-2 ">
+				<div class="file-show-div">
+					<h4 class="text-center"><strong>{{ files.file.name|getExtension }}</strong></h4>
+					<a href="{{ files.file.url }}" class="btn btn-success btn-sm margin-left-download-btn pull-right" target="_blank">
+						<i class="fa fa-download"></i>
+					</a>
+				</div>
+				<span class="fileNameCss text-info">{{ files.file.name|fileNameFiltering }}</span>
+			</div>
+			{% cycle '' '' '' '' '' '<div class="clearfix visible-lg"></div>' %}
+		{% endfor %}
+	</div><br/>
+	
+</div>
+{% endblock %}
